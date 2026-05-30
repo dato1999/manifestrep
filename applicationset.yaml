@@ -9,7 +9,7 @@ spec:
         repoURL: 'https://github.com/dato1999/topics.git'
         revision: HEAD
         files:
-          - path: "topics/*.json"
+          - path: "*.json"
   template:
     metadata:
       # Generates clean, unique names like "spark-app-orders" or "spark-app-clickstream"
@@ -17,7 +17,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: 'https://github.com/your-team/your-manifest-repo.git'
+        repoURL: 'https://github.com/dato1999/manifestrep.git'
         targetRevision: HEAD
         path: charts/spark-streaming-template
         helm:
