@@ -1,0 +1,37 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: dynamic-pyspark-pipelines
+  namespace: argocd
+spec:
+  generators:
+    - git:
+        repoURL: 'https://github.com/dato1999/topics.git'
+        revision: HEAD
+        files:
+          - path: "topics/*.json"
+  template:
+    metadata:
+      # Generates clean, unique names like "spark-app-orders" or "spark-app-clickstream"
+      name: 'spark-app-{{path.basenameNormalized}}'
+    spec:
+      project: default
+      source:
+        repoURL: 'https://github.com/your-team/your-manifest-repo.git'
+        targetRevision: HEAD
+        path: charts/spark-streaming-template
+        helm:
+          parameters:
+            - name: "spark.jobName"
+              value: "spark-{{path.basenameNormalized}}"
+            - name: "spark.topicName"
+              value: "{{topic_name}}" # Extracted from the json file payload
+            - name: "spark.schemaDDL"
+              value: "{{schema}}"     # Extracted from the json file payload
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: spark-apps
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true

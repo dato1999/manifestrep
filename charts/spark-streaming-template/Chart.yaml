@@ -1,0 +1,6 @@
+apiVersion: v2
+name: spark-streaming-template
+description: A parameterized Helm chart for dynamic PySpark streaming jobs
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

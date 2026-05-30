@@ -1,0 +1,4 @@
+spark:
+  jobName: "pyspark-fallback-stream"
+  topicName: "default-topic"
+  schemaDDL: "id STRING"

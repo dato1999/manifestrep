@@ -1,0 +1,32 @@
+apiVersion: "sparkoperator.k8s.io/v1beta2"
+kind: SparkApplication
+metadata:
+  name: {{ .Values.spark.jobName }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  type: Python
+  mode: cluster
+  image: "spark:4.0.1-scala2.13-java21-python3-ubuntu"
+  imagePullPolicy: Always
+  mainApplicationFile: "local:///opt/spark/apps/streaming_app.py"
+  arguments:
+    - "{{ .Values.spark.topicName }}"
+    - "{{ .Values.spark.schemaDDL }}"
+  sparkVersion: "3.5.0"
+  restartPolicy:
+    type: OnFailure
+    onFailureRetries: 3
+    onFailureInterval: 10
+  driver:
+    cores: 1
+    coreLimit: "1200m"
+    memory: "1024m"
+    labels:
+      version: 3.5.0
+    serviceAccount: spark-operator-spark
+  executor:
+    cores: 1
+    instances: 2
+    memory: "2048m"
+    labels:
+      version: 3.5.0
