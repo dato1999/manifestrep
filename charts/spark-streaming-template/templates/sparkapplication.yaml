@@ -9,6 +9,9 @@ spec:
   image: "davidkokauri/mysp1:v1"
   imagePullPolicy: Always
   mainApplicationFile: "local:///opt/spark/apps/streaming_app.py"
+  deps:
+    packages:
+      - "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0"
   arguments:
     - "{{ .Values.spark.topicName }}"
     - "{{ .Values.spark.schemaDDL }}"
