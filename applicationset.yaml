@@ -4,6 +4,8 @@ metadata:
   name: dynamic-pyspark-pipelines
   namespace: argocd
 spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]  # <-- add this
   generators:
     - git:
         repoURL: 'https://github.com/dato1999/topics.git'
@@ -12,8 +14,7 @@ spec:
           - path: "*.json"
   template:
     metadata:
-      # Generates clean, unique names like "spark-app-orders" or "spark-app-clickstream"
-      name: 'spark-app-{{path.basenameNormalized}}'
+      name: 'spark-app-{{.path.filenameNormalized | trimSuffix ".json"}}'  # <-- dot + trimSuffix here too
     spec:
       project: default
       source:
@@ -23,11 +24,11 @@ spec:
         helm:
           parameters:
             - name: "spark.jobName"
-              value: "spark-{{path.basenameNormalized}}"
+              value: 'spark-{{.path.filenameNormalized | trimSuffix ".json"}}'
             - name: "spark.topicName"
-              value: "{{topic_name}}" # Extracted from the json file payload
+              value: "{{.topic_name}}"  # <-- dot
             - name: "spark.schemaDDL"
-              value: "{{schema}}"     # Extracted from the json file payload
+              value: "{{.schema}}"      # <-- dot
       destination:
         server: 'https://kubernetes.default.svc'
         namespace: spark-apps

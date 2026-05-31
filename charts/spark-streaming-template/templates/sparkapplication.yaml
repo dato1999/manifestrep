@@ -6,7 +6,7 @@ metadata:
 spec:
   type: Python
   mode: cluster
-  image: "spark:4.0.1-scala2.13-java21-python3-ubuntu"
+  image: "davidkokauri/mysp1:v1"
   imagePullPolicy: Always
   mainApplicationFile: "local:///opt/spark/apps/streaming_app.py"
   arguments:
@@ -30,3 +30,7 @@ spec:
     memory: "2048m"
     labels:
       version: 3.5.0
+
+
+#       helm repo add spark-operator https://kubeflow.github.io/spark-operator
+# helm repo update   
