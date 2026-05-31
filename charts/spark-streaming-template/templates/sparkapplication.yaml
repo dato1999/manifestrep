@@ -6,7 +6,7 @@ metadata:
 spec:
   type: Python
   mode: cluster
-  image: "davidkokauri/mysp1:v3"
+  image: "davidkokauri/mysp1:v4"
   imagePullPolicy: Always
   mainApplicationFile: "local:///opt/spark/apps/streaming_app.py"
   deps:
