@@ -6,17 +6,17 @@ metadata:
 spec:
   type: Python
   mode: cluster
-  image: "davidkokauri/mysp1:v1"
+  image: "davidkokauri/mysp1:v2"
   imagePullPolicy: Always
   mainApplicationFile: "local:///opt/spark/apps/streaming_app.py"
   deps:
     packages:
-      - "org.apache.spark:spark-sql-kafka-0-10_2.12:3.5.0"
+      - "org.apache.spark:spark-sql-kafka-0-10_2.13:3.5.0"
   sparkConf:
     "spark.jars.ivy": "/tmp"
     "spark.driver.extraJavaOptions": "-Divy.cache.dir=/tmp -Divy.home=/tmp"
     "spark.executor.extraJavaOptions": "-Divy.cache.dir=/tmp -Divy.home=/tmp"
-    
+
   arguments:
     - "{{ .Values.spark.topicName }}"
     - "{{ .Values.spark.schemaDDL }}"
